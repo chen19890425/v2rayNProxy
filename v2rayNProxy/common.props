@@ -1,0 +1,24 @@
+<Project>
+
+	<PropertyGroup>
+		<WeaverConfiguration>
+			<Weavers>
+				<CryptStr2 IsRemoveDuplicate="true" />
+			</Weavers>
+		</WeaverConfiguration>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<NoWarn>CS1591</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Fody">
+			<Version>6.5.3</Version>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>All</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="CryptStr2.Fody" Version="1.0.10" PrivateAssets="All" />
+	</ItemGroup>
+
+</Project>

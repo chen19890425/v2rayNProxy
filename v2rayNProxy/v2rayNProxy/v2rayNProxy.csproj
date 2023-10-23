@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net48</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ApplicationIcon>v2rayN.v2rayN.ico</ApplicationIcon>
+		<StartupObject />
+		<Version>1.0.0.1</Version>
+	</PropertyGroup>
+
+	<Import Project="../common.props" />
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath>..\bin\Debug</OutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutputPath>..\bin\Release</OutputPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="v2rayN.v2rayN.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="app\v2rayN.exe">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MonoMod.RuntimeDetour" Version="25.0.2" />
+		<PackageReference Include="SysUtility" Version="1.0.0" />
+		<PackageReference Include="SysWinForms" Version="1.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="CryptStr2.Fody" Version="1.0.19" />
+	  <PackageReference Update="Fody" Version="6.8.0">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	</ItemGroup>
+
+</Project>

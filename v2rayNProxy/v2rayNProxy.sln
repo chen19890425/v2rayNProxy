@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "v2rayNProxy", "v2rayNProxy\v2rayNProxy.csproj", "{7F8BB104-5980-4ECB-A874-889831B8695C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "v2rayUpgradeProxy", "v2rayUpgradeProxy\v2rayUpgradeProxy.csproj", "{A3EDB0AB-CFFF-4C3B-88BD-1D1EFD2F02E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F8BB104-5980-4ECB-A874-889831B8695C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F8BB104-5980-4ECB-A874-889831B8695C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F8BB104-5980-4ECB-A874-889831B8695C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F8BB104-5980-4ECB-A874-889831B8695C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3EDB0AB-CFFF-4C3B-88BD-1D1EFD2F02E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3EDB0AB-CFFF-4C3B-88BD-1D1EFD2F02E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3EDB0AB-CFFF-4C3B-88BD-1D1EFD2F02E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3EDB0AB-CFFF-4C3B-88BD-1D1EFD2F02E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8093758C-829E-4C64-BCAD-C03F30005B15}
+	EndGlobalSection
+EndGlobal
