@@ -95,7 +95,7 @@ namespace v2rayNProxy.Utils
             }
             catch (Exception e)
             {
-                MSGBox.OK($"错误：{e.Message}", App._msgTitle);
+                MSGBox.OK($"错误：{(e.InnerException ?? e).Message}", App._msgTitle);
             }
         }
 
