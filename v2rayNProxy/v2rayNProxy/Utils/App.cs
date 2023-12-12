@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -15,15 +17,16 @@ namespace v2rayNProxy.Utils
 {
     public sealed class App
     {
-        private static readonly string _exe = "git";
+        private static readonly string _host = "127.0.0.1";
         private static readonly string _msgTitle = nameof(v2rayNProxy);
         private static readonly string _appDir = "app";
         private static readonly string _appName = "v2rayN";
         private static readonly string _appExeName = $"{App._appName}.exe";
         private static readonly string _appUpExeName = "v2rayUpgrade.exe";
         private static readonly string _appUpProxyExeName = "v2rayUpgradeProxy.exe";
-        private static App _app = null;
-        private static Mutex _mutexObj = null;
+        private static App _app;
+        private static Mutex _mutexObj;
+        private static List<Lazy<PluginBase>> _plugins;
 
         private App()
         {
@@ -212,20 +215,6 @@ namespace v2rayNProxy.Utils
             }
         }
 
-        private static bool IsHasGit()
-        {
-            try
-            {
-                App.Exe_Cmd(App._exe);
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void New_SetStartInfo(Action<Process, ProcessStartInfo> orig, Process inst, ProcessStartInfo startInfo)
         {
@@ -283,7 +272,17 @@ namespace v2rayNProxy.Utils
                 return false;
             }
 
-            if (!App.IsHasGit())
+            if (_plugins == null)
+            {
+                _plugins = typeof(App).Assembly
+                    .GetTypes()
+                    .Where(t => !t.IsAbstract && typeof(PluginBase).IsAssignableFrom(t))
+                    .Select(t => new Lazy<PluginBase>(() => Activator.CreateInstance(t) as PluginBase))
+                    .Where(p => p != null)
+                    .ToList();
+            }
+
+            if (_plugins.Count == 0)
             {
                 return true;
             }
@@ -296,15 +295,15 @@ namespace v2rayNProxy.Utils
 
                 Version.TryParse(verstr, out var ver);
 
-                object port = null;
+                int port = 0;
 
                 if (ver.Major <= 4)
                 {
-                    port = ReflectHelper.GetStaticProperty(type.Assembly.GetType("v2rayN.Global"), "httpPort");
+                    port = (int)ReflectHelper.GetStaticProperty(type.Assembly.GetType("v2rayN.Global"), "httpPort");
                 }
                 else if (ver.Major == 5)
                 {
-                    port = type.GetMethod("GetLocalPort").Invoke(config, new object[] { "http" });
+                    port = (int)type.GetMethod("GetLocalPort").Invoke(config, new object[] { "http" });
                 }
 
                 if (forceDisable && sysProxyType == 1)
@@ -312,17 +311,24 @@ namespace v2rayNProxy.Utils
                     sysProxyType = 0;
                 }
 
-                switch (sysProxyType)
+                for (int i = 0; i < _plugins.Count; i++)
                 {
-                    case 0:
-                        App.Exe_Cmd(App._exe, "config --global --unset http.proxy");
-                        App.Exe_Cmd(App._exe, "config --global --unset https.proxy");
-                        break;
-                    case 1:
-                        App.Exe_Cmd(App._exe, $"config --global http.sslVerify false");
-                        App.Exe_Cmd(App._exe, $"config --global http.proxy http://127.0.0.1:{port}");
-                        App.Exe_Cmd(App._exe, $"config --global https.proxy https://127.0.0.1:{port}");
-                        break;
+                    var plugin = _plugins[i];
+
+                    if (!plugin.Value.IsHasCmd())
+                    {
+                        continue;
+                    }
+
+                    switch (sysProxyType)
+                    {
+                        case 0:
+                            plugin.Value.OnCloseProxy(_host, port);
+                            break;
+                        case 1:
+                            plugin.Value.OnOpenProxy(_host, port);
+                            break;
+                    }
                 }
             }
             catch (Exception e)

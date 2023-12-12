@@ -36,11 +36,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="CryptStr2.Fody" Version="1.0.19" />
-	  <PackageReference Update="Fody" Version="6.8.0">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
+		<PackageReference Update="CryptStr2.Fody" Version="1.0.19" />
+		<PackageReference Update="Fody" Version="6.8.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 </Project>
